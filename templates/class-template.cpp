@@ -8,6 +8,10 @@ struct Pair
     U second{};
 };
 
+// CTAD - Class template Argument deduction guide.
+template <typename T, typename U>
+Pair(T,U) -> Pair<T,U>;
+
 template <typename T, typename U>
 void print(std::pair<T, U> p)
 {
