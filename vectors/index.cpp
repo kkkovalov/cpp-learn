@@ -1,23 +1,21 @@
 #include <vector>
+#include <string>
 #include <iostream>
 
-template <typename T>
-void printElement(const std::vector<T> &v, const std::size_t index){
-    if(index >= v.size()) std::cout << "Invalid index";
-    else {
-        std::cout << "The element has value: " << v[index] << '\n';
-    }
-}
 
 int main()
 {
-    std::vector v1 { 0, 1, 2, 3, 4 };
-    printElement(v1, 2);
-    printElement(v1, 5);
+    std::vector<std::string_view> names{"Alex", "Betty", "Caroline", "Dave", "Emily", "Fred", "Greg", "Holly"};
+    std::cout << "Enter a name: ";
+    std::string userName{};
+    std::cin >> userName;
+    for(const auto& name : names){
+        if(userName == name) {
+            std::cout << name << " was found.\n";
+            return 0;
+        }
+    }
 
-    std::vector v2 { 1.1, 2.2, 3.3 };
-    printElement(v2, 0);
-    printElement(v2, -1);
-
+    std::cout << userName << " was not found.\n";
     return 0;
 }
