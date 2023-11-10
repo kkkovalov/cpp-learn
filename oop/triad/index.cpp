@@ -13,9 +13,9 @@ class Triad{
 
         };
 
-        const T& first(){return m_first;}
-        const U& second(){return m_second;}
-        const K& third(){return m_third;}
+        // const T& first(){return m_first;}
+        // const U& second(){return m_second;}
+        // const K& third(){return m_third;}
 
         void print() const;
 
@@ -30,11 +30,7 @@ int main(){
     Triad<int, int, int> t1{ 1, 2, 3 };
 	t1.print();
 	std::cout << '\n';
-
-    int k;
-    std::cin >> k;
-    std::cout << k;
-
+    
 	using namespace std::literals::string_literals;
 	const Triad t2{ 1, 2.3, "Hello"s };
 	t2.print();

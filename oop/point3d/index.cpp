@@ -1,41 +1,34 @@
 #include <iostream>
+#include <string>
+#include <string_view>
 
-class Point3d
+class Ball
 {
-private:
-    int m_x{}, m_y{}, m_z{};
+  private:
+    std::string m_color{"black"};
+    double m_radius{10.0};
+  public:
+    // Handles Ball(radius)
+    Ball(double radius) : Ball{"black", radius}
+    {
+    }
 
-public:
-    void setValues(int x, int y, int z)
+    // Handles Ball(color, radius), Ball(color), and Ball()
+    Ball(std::string_view color = "black", double radius = 10.0) : m_color{color}, m_radius{radius}
     {
-        m_x = x;
-        m_y = y;
-        m_z = z;
-    }
-    void print() const
-    {
-        std::cout << '<' << m_x << ", " << m_y << ", " << m_z << ">\n";
-    }
-    bool isEqual(const Point3d &point) const
-    {
-        return (m_x == point.m_x && m_y == point.m_y && m_z == point.m_z);
+        std::cout << "Ball(" << m_color << ", " << m_radius << ")\n";
     }
 };
 
 int main()
 {
-    Point3d point1{};
-    point1.setValues(1, 2, 3);
+  int a,b;
+  std::cout << "Please enter a & b: ";
+  std::cin >> a >> b;
+  Ball def{};
+  Ball blue{"blue"};
+  Ball twenty{20.0};
+  Ball blueTwenty{"blue", 20.0};
 
-    Point3d point2{};
-    point2.setValues(1, 2, 3);
-
-    std::cout << "point 1 and point 2 are" << (point1.isEqual(point2) ? "" : " not") << " equal\n";
-
-    Point3d point3{};
-    point3.setValues(3, 4, 5);
-
-    std::cout << "point 1 and point 3 are" << (point1.isEqual(point3) ? "" : " not") << " equal\n";
-
-    return 0;
+  return 0;
 }

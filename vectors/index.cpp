@@ -2,6 +2,15 @@
 #include <string>
 #include <iostream>
 
+template <typename T, typename U>
+bool isValueInArray(const std::vector<T> &names, U c_name){
+    for(const auto& name : names){
+        if(c_name == name) {
+            return true;
+        }
+    }
+    return false;
+};
 
 int main()
 {
@@ -9,13 +18,6 @@ int main()
     std::cout << "Enter a name: ";
     std::string userName{};
     std::cin >> userName;
-    for(const auto& name : names){
-        if(userName == name) {
-            std::cout << name << " was found.\n";
-            return 0;
-        }
-    }
-
-    std::cout << userName << " was not found.\n";
+    std::cout << userName << isValueInArray(names, userName) ? " was found.\n" : " was not found.\n";
     return 0;
 }
