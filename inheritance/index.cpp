@@ -1,6 +1,8 @@
 #include <array>
+#include <cstdlib>
 #include <iostream>
 #include <string>
+#include <utility>
 
 class Creature {
   protected:
@@ -61,6 +63,11 @@ class Player : public Creature {
     bool hasWon() { return m_level >= 20; };
 };
 
+int getRandomNumber(int min, int max) {
+    static constexpr double fraction{1.0 / (RAND_MAX + 1.0)};
+    return min + static_cast<int>((max - min + 1) * (std::rand() * fraction));
+}
+
 class Monster : public Creature {
   public:
     enum class Type { dragon, orc, slime, max_types };
@@ -78,18 +85,21 @@ class Monster : public Creature {
 
   public:
     Monster(Type type) : Creature{getDefaultCreature(type)} {}
+    static Monster getRandomMonster() {
+        int rnd{getRandomNumber(0, static_cast<int>(Type::max_types) - 1)};
+        return Monster{static_cast<Type>(rnd)};
+    };
 };
 
 int main() {
-    std::cout << "Please enter user name: ";
-    std::string playerName;
-    std::cin >> playerName;
-
-    Player p{playerName};
-
-    Monster m{Monster::Type::orc};
-    std::cout << "A " << m.getName() << " (" << m.getSymbol()
-              << ") was created.\n";
+    std::srand(static_cast<unsigned int>(
+        std::time(nullptr))); // set initial seed value to system clock
+    std::rand();              // get rid of first result
+    for (int i{0}; i < 10; ++i) {
+        Monster m{Monster::getRandomMonster()};
+        std::cout << "A " << m.getName() << " (" << m.getSymbol()
+                  << ") was created.\n";
+    }
 
     return 0;
 };
