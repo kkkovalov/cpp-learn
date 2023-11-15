@@ -1,3 +1,4 @@
+#include <array>
 #include <iostream>
 #include <string>
 
@@ -46,7 +47,7 @@ class Player : public Creature {
 
   public:
     Player(std::string playerName) : Creature{playerName, '@', 10, 1, 0} {
-        std::cout << "Welcome, Alex.\n You have " << m_health
+        std::cout << "Welcome, Alex.\nYou have " << m_health
                   << " health and are carrying " << m_goldAmount << " gold.\n";
     };
 
@@ -60,11 +61,35 @@ class Player : public Creature {
     bool hasWon() { return m_level >= 20; };
 };
 
+class Monster : public Creature {
+  public:
+    enum class Type { dragon, orc, slime, max_types };
+
+  private:
+    static const Creature &getDefaultCreature(Type type) {
+        static const std::array<Creature,
+                                static_cast<std::size_t>(Type::max_types)>
+            monsterData{{{"dragon", 'D', 20, 4, 100},
+                         {"orc", 'o', 4, 2, 25},
+                         {"slime", 's', 1, 1, 10}}};
+
+        return monsterData.at(static_cast<std::size_t>(type));
+    }
+
+  public:
+    Monster(Type type) : Creature{getDefaultCreature(type)} {}
+};
+
 int main() {
     std::cout << "Please enter user name: ";
     std::string playerName;
     std::cin >> playerName;
 
     Player p{playerName};
+
+    Monster m{Monster::Type::orc};
+    std::cout << "A " << m.getName() << " (" << m.getSymbol()
+              << ") was created.\n";
+
     return 0;
 };
