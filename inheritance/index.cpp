@@ -1,52 +1,65 @@
 #include <iostream>
 #include <string>
 
-class Fruit {
-  private:
-    const std::string m_name;
-    const std::string m_color;
+class Creature {
+  protected:
+    std::string m_name;
+    char m_symbol;
+    int m_health;
+    int m_attackDamage;
+    int m_goldAmount;
 
   public:
-    Fruit(std::string name, std::string color)
-        : m_name{name}, m_color{color} {};
+    Creature(std::string name, char symbol, int health, int attackDamage,
+             int goldAmount)
+        : m_name{name}, m_symbol{symbol}, m_health{health},
+          m_attackDamage{attackDamage}, m_goldAmount{goldAmount} {};
 
-    const std::string &getName() const { return m_name; }
-    const std::string &getColor() const { return m_color; }
-};
+    std::string &getName() { return m_name; };
+    char const getSymbol() { return m_symbol; };
+    int const getHealth() { return m_health; };
+    int const getAttackDamage() { return m_attackDamage; };
+    int const getGoldAmount() { return m_goldAmount; };
 
-class Apple : public Fruit {
-  private:
-    double m_fiber;
+    void reduceHealth(int healthReducedByValue) {
+        if (healthReducedByValue > m_health)
+            m_health = 0;
+        else
+            m_health -= healthReducedByValue;
+        std::cout << "Ouch, that hurt!\n";
+    };
 
-  public:
-    Apple(std::string name, std::string color, double fiber)
-        : Fruit(name, color), m_fiber{fiber} {};
+    bool isDead() { return m_health == 0; };
 
-    double getFiber() const { return m_fiber; };
-
-    friend std::ostream &operator<<(std::ostream &out, const Apple &a) {
-        out << "Apple(" << a.getName() << ", " << a.getColor() << ", "
-            << a.getFiber() << ')';
-        return out;
+    void addGold(int goldAddedByValue) {
+        m_goldAmount += goldAddedByValue;
+        std::cout << "Cha-ching!\n";
     };
 };
 
-class Banana : public Fruit {
-  public:
-    Banana(std::string name, std::string color) : Fruit(name, color){};
+class Player : public Creature {
+  private:
+    int m_level{1};
 
-    friend std::ostream &operator<<(std::ostream &out, const Banana &b) {
-        out << "Banana(" << b.getName() << ", " << b.getColor() << ')';
-        return out;
+  public:
+    Player(std::string playerName) : Creature{playerName, '@', 10, 1, 0} {}
+
+    void levelUp() {
+        ++m_level;
+        ++m_attackDamage;
     };
+
+    int getLevel() { return m_level; };
+
+    bool hasWon() { return m_level >= 20; };
 };
 
 int main() {
-    const Apple a{"Red delicious", "red", 4.2};
-    std::cout << a << '\n';
+    std::cout << "Please enter user name: ";
+    std::string playerName;
+    std::cin >> playerName;
 
-    const Banana b{"Cavendish", "yellow"};
-    std::cout << b << '\n';
-
+    Player p{playerName};
+    std::cout << p << '\p';
     return 0;
 };
