@@ -23,20 +23,22 @@ class Apple : public Fruit {
         : Fruit(name, color), m_fiber{fiber} {};
 
     double getFiber() const { return m_fiber; };
+};
 
-    friend std::ostream &operator<<(std::ostream &out, const Apple &a) {
-        out << "Apple(" << a.getName() << ", " << a.getColor() << ", "
-            << a.getFiber() << ')';
-    };
+std::ostream &operator<<(std::ostream &out, const Apple &a) {
+    out << "Apple(" << a.getName() << ", " << a.getColor() << ", "
+        << a.getFiber() << ')';
+    return out;
 };
 
 class Banana : public Fruit {
   public:
     Banana(std::string name, std::string color) : Fruit(name, color){};
+};
 
-    friend std::ostream &operator<<(std::ostream &out, const Banana &b) {
-        out << "Banana(" << b.getName() << ", " << b.getColor() << ')';
-    };
+std::ostream &operator<<(std::ostream &out, const Banana &b) {
+    out << "Banana(" << b.getName() << ", " << b.getColor() << ')';
+    return out;
 };
 
 int main() {
