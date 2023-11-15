@@ -35,6 +35,9 @@ class Creature {
         m_goldAmount += goldAddedByValue;
         std::cout << "Cha-ching!\n";
     };
+
+    friend std::ostream &operator<<(std::ostream &out,
+                                    const Creature &creature){};
 };
 
 class Player : public Creature {
@@ -42,7 +45,10 @@ class Player : public Creature {
     int m_level{1};
 
   public:
-    Player(std::string playerName) : Creature{playerName, '@', 10, 1, 0} {}
+    Player(std::string playerName) : Creature{playerName, '@', 10, 1, 0} {
+        std::cout << "Welcome, Alex.\n You have " << m_health
+                  << " health and are carrying " << m_goldAmount << " gold.\n";
+    };
 
     void levelUp() {
         ++m_level;
@@ -60,6 +66,5 @@ int main() {
     std::cin >> playerName;
 
     Player p{playerName};
-    std::cout << p << '\p';
     return 0;
 };
