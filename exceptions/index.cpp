@@ -1,24 +1,51 @@
-#include <cmath>
 #include <iostream>
+#include <string>
+#include <string_view>
 
-double mySqrt(double x) {
-    if (x < 0.0)
-        throw "Can not take sqrt of negative number";
+class ArrayException
+{
+private:
+	std::string m_error;
 
-    return std::sqrt(x);
-}
+public:
+	ArrayException(std::string_view error)
+		: m_error{ error }
+	{
+	}
 
-int main() {
+	const std::string& getError() const { return m_error; }
+};
 
-    std::cout << "Enter a number: ";
-    double x{};
-    std::cin >> x;
-    try {
-        double d = mySqrt(x);
-        std::cout << "The sqrt of " << x << " is " << d << '\n';
-    } catch (const char *exception) {
-        std::cerr << "Error: " << exception << std::endl;
-    }
+class IntArray
+{
+private:
+	int m_data[3]{}; // assume array is length 3 for simplicity
 
-    return 0;
+public:
+	IntArray() {}
+
+	int getLength() const { return 3; }
+
+	int& operator[](const int index)
+	{
+		if (index < 0 || index >= getLength())
+			throw ArrayException{ "Invalid index" };
+
+		return m_data[index];
+	}
+
+};
+
+int main()
+{
+	IntArray array;
+
+	try
+	{
+		int value{ array[5] }; // out of range subscript
+	}
+	catch (const ArrayException& exception)
+	{
+		std::cerr << "An array exception occurred (" << exception.getError() << ")\n";
+	}
 }
